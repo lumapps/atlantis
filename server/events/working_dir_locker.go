@@ -75,19 +75,19 @@ func (d *DefaultWorkingDirLocker) TryLockPull(repoFullName string, pullNum int) 
 }
 
 func (d *DefaultWorkingDirLocker) TryLock(repoFullName string, pullNum int, workspace string) (func(), error) {
-	d.mutex.Lock()
-	defer d.mutex.Unlock()
+	// d.mutex.Lock()
+	// defer d.mutex.Unlock()
 
-	pullKey := d.pullKey(repoFullName, pullNum)
-	workspaceKey := d.workspaceKey(repoFullName, pullNum, workspace)
-	for _, l := range d.locks {
-		if l == pullKey || l == workspaceKey {
-			return func() {}, fmt.Errorf("The %s workspace is currently locked by another"+
-				" command that is running for this pull request.\n"+
-				"Wait until the previous command is complete and try again.", workspace)
-		}
-	}
-	d.locks = append(d.locks, workspaceKey)
+	// pullKey := d.pullKey(repoFullName, pullNum)
+	// workspaceKey := d.workspaceKey(repoFullName, pullNum, workspace)
+	// for _, l := range d.locks {
+	// 	if l == pullKey || l == workspaceKey {
+	// 		return func() {}, fmt.Errorf("The %s workspace is currently locked by another"+
+	// 			" command that is running for this pull request.\n"+
+	// 			"Wait until the previous command is complete and try again.", workspace)
+	// 	}
+	// }
+	// d.locks = append(d.locks, workspaceKey)
 	return func() {
 		d.unlock(repoFullName, pullNum, workspace)
 	}, nil
